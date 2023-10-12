@@ -1,30 +1,22 @@
-<?php 
-    include('includes/config.php');
+<?php include('includes/header.php'); ?>
 
-    // logout session
-    // session_destroy();
+<h1 class="page-heading-big">You Might Also Like</h1>
 
-    if (isset($_SESSION['userLoggedIn'])) {
-        $userLoggedIn = $_SESSION['userLoggedIn'];
-    } else {
-        header("Location: register.php");
-    }
-?>
+<div class="grid-view-container">
+    <?php 
+        $albumQuery = mysqli_query($conn, "SELECT * FROM albums ORDER BY RAND() LIMIT 10");
 
-<html>
-    <head>
-        <title>Spodify</title>
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
-    </head>
-    <body>
-        <div id="now-playing-container">
-            <div id="now-playing-bar">
-                <div id="now-playing-bar-left"></div>
+        while ($row = mysqli_fetch_array($albumQuery)) {
+            echo "<div class='grid-view-item'>
+                <a href='album.php?id=" . $row['id'] . "'>
+                    <img src='" . $row['artworkPath'] . "' alt='album art' />
+                    <div class='grid-view-info'>" 
+                    . $row['title'] . 
+                    "</div>
+                </a>
+            </div>";
+        }
+    ?>
+</div>
 
-                <div id="now-playing-bar-center"></div>
-
-                <div id="now-playing-bar-right"></div>
-            </div>
-        </div>
-    </body>
-</html>
+<?php include('includes/footer.php'); ?>
