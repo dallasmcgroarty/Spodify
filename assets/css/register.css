@@ -1,0 +1,128 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.hide {
+    display: none;
+}
+
+#background {
+    background-image: url('../images/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+#login-container * {
+    color: #fff;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: normal;
+    line-height: 1em;
+    box-sizing: border-box;
+}
+
+#login-container {
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+    max-width: 1024px;
+}
+
+#input-container {
+    width: 400px;
+    padding: 45px;
+    float: left;
+    border-right: 1px solid #999;
+}
+
+#input-container h2 {
+    text-align: center;
+}
+
+#input-container input {
+    display: block;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    height: 27px;
+    outline: none;
+    line-height: 27px;
+    width: 100%;
+}
+
+#input-container .form-input {
+    margin: 20px 0px;
+}
+
+#input-container .form-input label {
+    color: #a0a0a0;
+    font-size: 13px;
+}
+
+#input-container button {
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 24px;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin: 20px auto;
+    height: 41px;
+    width: 100%;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+
+#input-container button:hover {
+    border-color: black;
+    background-color: black;
+}
+
+.hasAccountText {
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+}
+
+#input-container .error-message {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+#login-text {
+    padding: 45px;
+    display: table-cell;
+}
+
+#login-text h1 {
+    color: #07d159;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+#login-text h2 {
+    margin: 35px 0;
+}
+
+#login-text ul {
+    padding: 0px;
+    font-size: 18px;
+    list-style-type: none;
+
+}
+
+#login-text li {
+    padding: 8px;
+    padding-left: 30px;
+    background: url('../images/icons/checkmark.png') no-repeat;
+    background-position: left center;
+    background-size: 24px;
+}
