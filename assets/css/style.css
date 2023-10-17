@@ -110,6 +110,7 @@ html, body {
     background-color: #a0a0a0;
     height: 4px;
     width: 0;
+    border-radius: 2px;
 }
 
 #now-playing-bar-left .album-link img {
@@ -258,4 +259,112 @@ html, body {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.entity-info {
+    padding: 40px 0 10px 0;
+    display: inline-block;
+    width: 100%;
+}
+
+.entity-info .left-section {
+    width: 30%;
+    float: left;
+    max-width: 250px;
+}
+
+.entity-info .left-section img {
+    width: 100%;
+}
+
+.entity-info .right-section {
+    width: 70%;
+    float: left;
+    padding: 5px 10px 5px 40px;
+    box-sizing: border-box;
+}
+
+.entity-info .right-section h2 {
+    margin-top: 0px;
+}
+
+.entity-info .right-section p {
+    color: #939393;
+    font-weight: 300;
+}
+
+.track-list {
+    padding: 0;
+}
+
+.track-list .track-list-row {
+    height: 40px;
+    padding: 15px 10px;
+    list-style-type: none;
+    position: relative;
+}
+
+.track-list .track-list-row span {
+    color: #939393;
+    font-weight: 300;
+}
+
+.track-list .track-list-row:hover {
+    background-color: #282828;
+}
+
+.track-list .track-list-row:hover .track-count img {
+    visibility: visible;
+}
+
+.track-list .track-list-row:hover .track-number {
+    visibility: hidden;
+}
+
+.track-list .track-list-row:hover .track-options img {
+    visibility: visible;
+}
+
+.track-list .track-count {
+    width: 8%;
+    float: left;
+}
+
+.track-list .track-count img {
+    width: 20px;
+    visibility: hidden;
+    position: absolute;
+    cursor: pointer;
+}
+
+.track-list .track-info {
+    width: 75%;
+    float: left;
+}
+
+.track-list .track-info span {
+    display: block;
+}
+
+.track-list .track-options {
+    width: 5%;
+    float: left;
+    text-align: right;
+}
+
+.track-list .track-options img {
+    width: 15px;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.track-list .track-duration {
+    width: 12%;
+    float: left;
+    text-align: right;
+}
+
+.track-list .track-info .track-name {
+    color: #fff;
+    margin-bottom: 7px;
 }
