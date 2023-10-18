@@ -14,7 +14,21 @@ if (isset($_SESSION['userLoggedIn'])) {
     header("Location: register.php");
 }
 
+$songQuery = mysqli_query($conn, "SELECT * FROM songs ORDER BY RAND() LIMIT 10");
+
+$resultArray = [];
+
+while ($row = mysqli_fetch_array($songQuery)) {
+    array_push($resultArray, $row['id']);
+}
+
+$jsonArray = json_encode($resultArray);
+
 ?>
+
+<script>
+    newPlaylist = <?php echo $jsonArray ?>;
+</script>
 
 <html>
 <head>

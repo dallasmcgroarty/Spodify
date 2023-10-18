@@ -1,64 +1,3 @@
-<?php 
-    $songQuery = mysqli_query($conn, "SELECT * FROM songs ORDER BY RAND() LIMIT 10");
-
-    $resultArray = [];
-
-    while ($row = mysqli_fetch_array($songQuery)) {
-        array_push($resultArray, $row['id']);
-    }
-
-    $jsonArray = json_encode($resultArray);
-?>
-
-<script>
-    $(document).ready(function() {
-        currentPlaylist = <?php echo $jsonArray ?>;
-        audioElement = new Audio();
-        setTrack(currentPlaylist[0], currentPlaylist, false);
-    });
-
-    function setTrack(trackId, newPlaylist, play) {
-
-        $.post("includes/handlers/ajax/getSongJson.php", { songId: trackId }, function(data) {
-            let track = JSON.parse(data);
-
-            document.querySelector('#now-playing-bar .track-name').textContent = track.title;
-
-            $.post("includes/handlers/ajax/getArtistJson.php", { artistId: track.artist }, function(data) {
-                let artist = JSON.parse(data);
-                document.querySelector('#now-playing-bar .artist-name').textContent = artist.name;
-            });
-
-            $.post("includes/handlers/ajax/getAlbumJson.php", { albumId: track.album }, function(data) {
-                let album = JSON.parse(data);
-                document.querySelector('#now-playing-bar .album-artwork').src = album.artworkPath;
-            });
-
-            audioElement.setTrack(track);
-        });
-
-        if (play) {
-            audioElement.play();
-        }
-    }
-
-    function playSong() {
-        if (audioElement.audio.currentTime == 0) {
-            $.post("includes/handlers/ajax/updatePlays.php", { songId: audioElement.currentlyPlaying.id });
-        }
-
-        document.querySelector('.control-button.play').classList.add('hide');
-        document.querySelector('.control-button.pause').classList.remove('hide');
-        audioElement.play();
-    }
-
-    function pauseSong() {
-        document.querySelector('.control-button.play').classList.remove('hide');
-        document.querySelector('.control-button.pause').classList.add('hide');
-        audioElement.pause();
-    }
-
-</script>
 
 </div>
                 </div>
@@ -86,11 +25,11 @@
                     <div id="now-playing-bar-center">
                         <div class="content player-controls">
                             <div class="buttons">
-                                <button type="button" class="control-button shuffle" title="Shuffle Button">
+                                <button type="button" class="control-button shuffle" title="Shuffle Button" onclick="setShuffle();">
                                     <img src="assets/images/icons/shuffle.png" alt="shuffle song">
                                 </button>
 
-                                <button type="button" class="control-button previous" title="Previous Button">
+                                <button type="button" class="control-button previous" title="Previous Button" onclick="previousSong();">
                                     <img src="assets/images/icons/previous.png" alt="previous song">
                                 </button>
 
@@ -102,11 +41,11 @@
                                     <img src="assets/images/icons/pause.png" alt="pause song">
                                 </button>
 
-                                <button type="button" class="control-button next" title="Next Button">
+                                <button type="button" class="control-button next" title="Next Button" onclick="nextSong();">
                                     <img src="assets/images/icons/next.png" alt="next song">
                                 </button>
 
-                                <button type="button" class="control-button repeat" title="repeat Button">
+                                <button type="button" class="control-button repeat" title="repeat Button" onclick="setRepeat();">
                                     <img src="assets/images/icons/repeat.png" alt="repeat song">
                                 </button>
                             </div>
@@ -125,7 +64,7 @@
 
                     <div id="now-playing-bar-right">
                         <div class="volume-bar">
-                            <button type="button" class="control-button volume" title="Volume button">
+                            <button type="button" class="control-button volume" title="Volume button" onclick="setMute();">
                                 <img src="assets/images/icons/volume.png" alt="Volume">
                             </button>
 

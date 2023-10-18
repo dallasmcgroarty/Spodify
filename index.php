@@ -1,4 +1,6 @@
-<?php include('includes/header.php'); ?>
+<?php 
+    include('includes/header.php');
+?>
 
 <h1 class="page-heading-big">You Might Also Like</h1>
 

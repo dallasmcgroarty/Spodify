@@ -33,11 +33,11 @@
             foreach($songIdArray as $songId) {
                 $song = new Song($conn, $songId);
                 $albumArtist = $song->getArtist();
-                //$album = $song->getAlbum();
+                $id = $song->getId();
 
                 echo "<li class='track-list-row'>
                         <div class='track-count'>
-                            <img class='play' src='assets/images/icons/play-white.png' alt='play'/>
+                            <img class='play' src='assets/images/icons/play-white.png' alt='play' onclick='setTrack(\"$id\",tempPlaylist,true)'/>
                             <span class='track-number'>$i</span>
                         </div>
 
@@ -58,6 +58,11 @@
                     $i += 1;
             }
         ?>
+        <script>
+            let tempSongIds = '<?php echo json_encode($songIdArray); ?>';
+            tempPlaylist = JSON.parse(tempSongIds);
+            console.log(tempPlaylist);
+        </script>
     </ul>
 </div>
 
