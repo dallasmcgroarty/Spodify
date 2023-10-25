@@ -10,6 +10,7 @@ include('includes/classes/Song.php');
 
 if (isset($_SESSION['userLoggedIn'])) {
     $userLoggedIn = $_SESSION['userLoggedIn'];
+    echo "<script>userLoggedIn = '$userLoggedIn'</script>";
 } else {
     header("Location: register.php");
 }
@@ -37,32 +38,37 @@ $jsonArray = json_encode($resultArray);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="assets/js/script.js"></script>
 </head>
+<?php 
+if (isset($_SESSION['userLoggedIn'])) {
+    echo "<script>userLoggedIn = '$userLoggedIn'</script>";
+}
+?>
 <body>
     <div id="mainContainer">
         <div id="top-container">
             <div id="nav-bar-container">
                 <nav class="nav-bar">
-                    <a href="index.php" class="logo">
+                    <span class="logo" role="link" tabindex="0" onclick="openPage('index.php')">
                         <img src="assets/images/icons/owl-logo.png" alt="logo">
-                    </a>
+                    </span>
 
                     <div class="group">
                         <div class="nav-item search-container">
-                            <a href="search.php" class="nav-item-link">Search
+                            <span role="link" tabindex="0" onclick="openPage('search.php')" class="nav-item-link">Search
                                 <img src="assets/images/icons/search.png" alt="Search" class="icon">
-                            </a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="group">
                         <div class="nav-item">
-                            <a href="browse.php" class="nav-item-link">Browse</a>
+                            <span role="link" tabindex="0" onclick="openPage('browse.php')" class="nav-item-link">Browse</span>
                         </div>
                         <div class="nav-item">
-                            <a href="yourMusic.php" class="nav-item-link">Your Music</a>
+                            <span role="link" tabindex="0" onclick="openPage('yourMusic.php')" class="nav-item-link">Your Music</span>
                         </div>
                         <div class="nav-item">
-                            <a href="profile.php" class="nav-item-link">Profile</a>
+                            <span role="link" tabindex="0" onclick="openPage('profile.php')" class="nav-item-link">Profile</span>
                         </div>
                     </div>
                 </nav>

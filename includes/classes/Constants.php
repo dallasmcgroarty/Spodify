@@ -1,4 +1,7 @@
 <?php 
+    /**
+     * Constants class
+     */
     class Constants {
         public static $passwordsDoNotMatch = 'Your passwords do not match.';
         public static $passwordLengthLimit = 'Your password must be between 5 and 30 characters.';

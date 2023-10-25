@@ -1,13 +1,57 @@
+/**
+ * Main script file
+ */
+
+/**
+ * Declaring globals
+ */
 
 let currentPlaylist = [];
 let shufflePlaylist = [];
 let tempPlaylist = [];
+let tempSongIds;
 let audioElement;
 let mouseDown = false;
 let currentIndex = 0;
 let repeat = false;
 let shuffle = false;
+let userLoggedIn = false;
+let timer;
 
+/**
+ * Opens the given url and loads the page through AJAX
+ * 
+ * @param {String} url 
+ */
+function openPage(url) {
+
+    if (timer != null) {
+        clearTimeout(timer)
+    }
+
+    if (url.indexOf('?') == -1) {
+        url = url + '?';
+    }
+
+    let encodedUrl = encodeURI(url + "&userLoggedIn=" + userLoggedIn);
+    $('#main-content').load(encodedUrl);
+    $('body').scrollTop(0);
+    history.pushState(null, null, url);
+}
+
+/**
+ * Plays the first the song on the artists page
+ */
+function playFirstSong() {
+    setTrack(tempPlaylist[0], tempPlaylist, true);
+}
+
+/**
+ * Formats time in a nicer way
+ * 
+ * @param {Number} seconds 
+ * @returns {String}
+ */
 function formatTime(seconds) {
     let time = Math.round(seconds);
     let minutes = Math.floor(time / 60);
@@ -18,6 +62,11 @@ function formatTime(seconds) {
     return `${minutes}:${extraZero}${seconds2}`;
 }
 
+/**
+ * Updates progressbar time
+ * 
+ * @param {HTMLAudioElement} audio 
+ */
 function updateTimeProgressBar(audio) {
     document.querySelector('.progress-time.current').textContent = formatTime(audio.currentTime);
     document.querySelector('.progress-time.remaining').textContent = formatTime(audio.duration - audio.currentTime);
@@ -27,11 +76,19 @@ function updateTimeProgressBar(audio) {
     document.querySelector('.progress-bar .progress').style.width = `${progress}%`;
 }
 
+/**
+ * Updates volume %
+ * 
+ * @param {HTMLAudioElement} audio 
+ */
 function updateVolumeProgressBar(audio) {
     let volume = audio.volume * 100;
     document.querySelector('.volume-bar .progress').style.width = `${volume}%`;
 }
 
+/**
+ * Audio class used to manipulate an HTMLAudioElement
+ */
 class Audio {
     constructor () {
         this.currentlyPlaying;
@@ -81,6 +138,9 @@ class Audio {
     }
 }
 
+/**
+ * On document ready execute setup listeners
+ */
 $(document).ready(function() {
     audioElement = new Audio();
     setTrack(newPlaylist[0], newPlaylist, false);
@@ -132,12 +192,23 @@ $(document).ready(function() {
     });
 });
 
+/**
+ * Update audio element time
+ * 
+ * @param {Event} mouse 
+ * @param {HTMLElement} progressBar 
+ */
 function timeFromOffset(mouse, progressBar) {
     let percent = mouse.offsetX / progressBar.offsetWidth * 100;
     let seconds = audioElement.audio.duration * (percent / 100);
     audioElement.setTime(seconds);
 }
 
+/**
+ * Plays next song in playlist
+ * 
+ * @returns Null
+ */
 function nextSong() {
     if (repeat) {
         audioElement.setTime(0);
@@ -155,18 +226,27 @@ function nextSong() {
     setTrack(trackToPlay, currentPlaylist, true);
 }
 
+/**
+ * Sets repeat options
+ */
 function setRepeat() {
     repeat = !repeat;
     let imageName = repeat ? 'repeat-active.png' : 'repeat.png';
     document.querySelector('.control-button.repeat img').src = `assets/images/icons/${imageName}`;
 }
 
+/**
+ * Sets mute options
+ */
 function setMute() {
     audioElement.audio.muted = !audioElement.audio.muted;
     let imageName = audioElement.audio.muted ? 'volume-mute.png' : 'volume.png';
     document.querySelector('.control-button.volume img').src = `assets/images/icons/${imageName}`;
 }
 
+/**
+ * Sets shuffle options
+ */
 function setShuffle() {
     shuffle = !shuffle;
     let imageName = shuffle ? 'shuffle-active.png' : 'shuffle.png';
@@ -180,6 +260,9 @@ function setShuffle() {
     }
 }
 
+/**
+ * Shuffle array randomly
+ */
 function shuffleArr(a) {
     let j, x, i;
     for (i = a.length;i;i--) {
@@ -190,6 +273,9 @@ function shuffleArr(a) {
     }
 }
 
+/**
+ * Plays previous song in playlist
+ */
 function previousSong() {
     if (audioElement.audio.currentTime >= 3 || currentIndex == 0) {
         audioElement.setTime(0);
@@ -201,6 +287,13 @@ function previousSong() {
     setTrack(trackToPlay, currentPlaylist, true);
 }
 
+/**
+ * Sets the current track to be played
+ * 
+ * @param {Number} trackId 
+ * @param {Array} newPlaylist 
+ * @param {Boolean} play 
+ */
 function setTrack(trackId, newPlaylist, play) {
     if (newPlaylist != currentPlaylist) {
         currentPlaylist = newPlaylist;
@@ -214,6 +307,7 @@ function setTrack(trackId, newPlaylist, play) {
         currentIndex = currentPlaylist.indexOf(trackId)
     }
 
+    // ajax calls to php handlers to retreive sql data
     $.post("includes/handlers/ajax/getSongJson.php", { songId: trackId }, function(data) {
         let track = JSON.parse(data);
 
@@ -222,11 +316,14 @@ function setTrack(trackId, newPlaylist, play) {
         $.post("includes/handlers/ajax/getArtistJson.php", { artistId: track.artist }, function(data) {
             let artist = JSON.parse(data);
             document.querySelector('#now-playing-bar .artist-name').textContent = artist.name;
+            document.querySelector('#now-playing-bar .artist-name').setAttribute('onclick', `openPage('artist.php?id=${artist.id}')`);
         });
 
         $.post("includes/handlers/ajax/getAlbumJson.php", { albumId: track.album }, function(data) {
             let album = JSON.parse(data);
             document.querySelector('#now-playing-bar .album-artwork').src = album.artworkPath;
+            document.querySelector('#now-playing-bar .album-artwork').setAttribute('onclick', `openPage('album.php?id=${album.id}')`);
+            document.querySelector('#now-playing-bar .track-name').setAttribute('onclick', `openPage('album.php?id=${album.id}')`);
         });
 
         audioElement.setTrack(track);
@@ -238,6 +335,9 @@ function setTrack(trackId, newPlaylist, play) {
 
 }
 
+/**
+ * Play current song and update number of times played if first time loaded
+ */
 function playSong() {
     if (audioElement.audio.currentTime == 0) {
         $.post("includes/handlers/ajax/updatePlays.php", { songId: audioElement.currentlyPlaying.id });
@@ -248,6 +348,9 @@ function playSong() {
     audioElement.play();
 }
 
+/**
+ * Pause the current song
+ */
 function pauseSong() {
     document.querySelector('.control-button.play').classList.remove('hide');
     document.querySelector('.control-button.pause').classList.add('hide');

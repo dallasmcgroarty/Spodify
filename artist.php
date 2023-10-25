@@ -1,38 +1,37 @@
-<?php include('includes/includedFiles.php'); 
+<?php 
+    include("includes/includedFiles.php");
 
     if (isset($_GET['id'])) {
-        $albumId = $_GET['id'];
+        $artistId = $_GET['id'];
 
     } else {
         Header("Location: index.php");
     }
 
-    $album = new Album($conn, $albumId);
-    $artist = $album->getArtist();
+    $artist = new Artist($conn, $artistId);
 ?>
 
-<div class="entity-info">
-    <div class="left-section">
-        <img src="<?php echo $album->getArtworkPath(); ?>" alt="album artwork" />
-    </div>
+<div class="entity-info border-bottom">
+    <div class="center-section">
+        <div class="artist-info">
+            <h1 class="artist-name"><?php echo $artist->getName(); ?></h1>
 
-    <div class="right-section">
-        <h2><?php echo $album->getTitle(); ?></h2>
-        <p>By <?php echo $artist->getName(); ?></p>
-        <p><?php echo $album->getNumberOfSongs(); ?> songs</p>
+            <div class="header-buttons">
+                <button class="button green" onclick="playFirstSong();">PLAY</button>
+            </div>
+        </div>
     </div>
-
 </div>
 
-<div class="track-list-container">
+<div class="track-list-container border-bottom">
+    <h2 class="text-center">Songs</h2>
     <ul class="track-list">
         <?php 
-            $songIdArray = $album->getSongIds();
+            $songIdArray = $artist->getSongIds();
 
             $i = 1;
             foreach($songIdArray as $songId) {
                 $song = new Song($conn, $songId);
-                $albumArtist = $song->getArtist();
                 $id = $song->getId();
 
                 echo "<li class='track-list-row'>
@@ -43,7 +42,7 @@
 
                         <div class='track-info'>
                             <span class='track-name'>" . $song->getTitle() . "</span>
-                            <span class='track-artist'>" . $albumArtist->getName() . "</span>
+                            <span class='track-artist'>" . $artist->getName() . "</span>
                         </div>
 
                         <div class='track-options'>
@@ -64,4 +63,23 @@
             console.log(tempPlaylist);
         </script>
     </ul>
+</div>
+
+<h2 class="text-center">Albums</h2>
+<div class="grid-view-container">
+    <?php 
+        $albumQuery = mysqli_query($conn, "SELECT * FROM albums WHERE artist='$artistId'");
+
+        while ($row = mysqli_fetch_array($albumQuery)) {
+            $urlAction = "openPage('album.php?id=" . $row['id'] . "')";
+            echo "<div class='grid-view-item'>
+                <div class='album-link' role='link' tabindex='0' onclick=$urlAction>
+                    <img src='" . $row['artworkPath'] . "' alt='album art' />
+                    <div class='grid-view-info'>" 
+                    . $row['title'] . 
+                    "</div>
+                </div>
+            </div>";
+        }
+    ?>
 </div>

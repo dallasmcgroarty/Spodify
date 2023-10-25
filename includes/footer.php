@@ -7,15 +7,15 @@
                     <div id="now-playing-bar-left">
                         <div class="content">
                             <span class="album-link">
-                                <img src="assets/images/album-placeholder.png" alt="album artwork" class="album-artwork">
+                                <img role="link" tabindex="0" src="assets/images/album-placeholder.png" alt="album artwork" class="album-artwork">
                             </span>
 
                             <div class="track-info">
-                                <span class="track-name">
+                                <span role="link" tabindex="0" class="track-name">
                                     test
                                 </span>
 
-                                <span class="artist-name">
+                                <span role="link" tabindex="0" class="artist-name">
                                     test
                                 </span>
                             </div>

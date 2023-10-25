@@ -1,4 +1,7 @@
 <?php 
+    /**
+     * Album class
+     */
     class Album {
         private $conn;
         private $id;

@@ -1,4 +1,7 @@
 <?php 
+    /**
+     * Account class
+     */
     class Account {
 
         private $conn;

@@ -1,3 +1,7 @@
+/**
+ * Register Page JS
+ */
+
 document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('#hideLogin').addEventListener('click', function(e) {
         document.querySelector('#login-form').classList.add('hide');

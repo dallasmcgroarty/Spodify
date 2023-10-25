@@ -1,4 +1,7 @@
 <?php 
+    /**
+     * Song class
+     */
     class Song {
         private $conn;
         private $id;
