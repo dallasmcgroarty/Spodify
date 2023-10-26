@@ -14,7 +14,11 @@ html, body {
 }
 
 .hide {
-    display: none;
+    display: none !important;
+}
+
+.show {
+    display: block;
 }
 
 #now-playing-container {
@@ -449,4 +453,62 @@ html, body {
 .no-results {
     margin: 15px;
     display: block;
+}
+
+.button-items {
+    margin-bottom: 10px;
+}
+
+.playlist-container {
+    padding: 10px 0px;
+}
+
+#playlist-input {
+    color: #fff;
+    display: block;
+    font-weight: 600;
+    border: none;
+    font-size: 20px;
+    letter-spacing: 2px;
+    min-width: 200px;
+    max-width: 300px;
+    width: 100%;
+    outline: none;
+    background-color: #242424;
+    padding: 10px 6px;
+    margin-right: 4px;
+}
+
+.playlist-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-small {
+    color: white;
+    background: transparent;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 0;
+}
+
+.playlist-container .grid-view-item {
+    cursor: pointer;
+}
+
+.playlist-container .playlist-image img {
+    width: 150px;
+    margin-bottom: 0px;
+}
+
+.playlist-container .playlist-image {
+    border: 3px solid #282828;
+    padding: 10px;
+    margin-bottom: 12px;
 }

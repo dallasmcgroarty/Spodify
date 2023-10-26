@@ -8,6 +8,7 @@
 
         if ($result) {
             $_SESSION['userLoggedIn'] = $username;
+            $_SESSION['user'] = serialize($account);
             header("location: index.php");
         }
     }

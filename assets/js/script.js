@@ -40,6 +40,30 @@ function openPage(url) {
 }
 
 /**
+ * Create a playlist for user
+ * 
+ * @param {String} username
+ */
+function createPlaylist() {
+    if (document.querySelector('#playlist-input').value != '') {
+        let value = document.querySelector('#playlist-input').value;
+        document.querySelector('#playlist-input').value = '';
+        document.querySelector('.playlist-input-container').classList.add('hide');
+
+        $.post("includes/handlers/ajax/createPlaylist.php", {name: value, username: userLoggedIn}).done(function(error) {
+            if (error) {
+                alert(error);
+                return;
+            }
+            
+            openPage('yourMusic.php');
+        });
+    } else {
+        return;
+    }
+}
+
+/**
  * Plays the first the song on the artists page
  */
 function playFirstSong() {

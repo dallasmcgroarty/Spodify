@@ -6,6 +6,10 @@
 
         private $conn;
         private $errorArray;
+        private $username;
+        private $firstName;
+        private $email;
+        private $profilePic;
 
         public function __construct($conn) {
             $this->conn = $conn;
@@ -16,8 +20,14 @@
             $pass = md5($pass);
 
             $query = mysqli_query($this->conn, "SELECT * FROM users WHERE username='$un' AND password='$pass'");
-
             if (mysqli_num_rows($query) == 1) {
+                $account = mysqli_fetch_array($query);
+
+                $this->username = $account['username'];
+                $this->firstName = $account['firstName'];
+                $this->email = $account['email'];
+                $this->profilePic = $account['profilePic'];
+
                 return true;
             } else {
                 array_push($this->errorArray, Constants::$loginFailed);
@@ -122,6 +132,30 @@
             if (strlen($pass) > 30 || strlen($pass) < 5) {
                 array_push($this->errorArray, 'Your password must be between 5 and 30 characters.');
                 return;
+            }
+        }
+
+        public function getUsername() {
+            if (isset($this->username)) {
+                return $this->username;
+            }
+        }
+
+        public function getFirstName() {
+            if (isset($this->firstName)) {
+                return $this->firstName;
+            }
+        }
+
+        public function getEmail() {
+            if (isset($this->email)) {
+                return $this->email;
+            }
+        }
+
+        public function getProfilePic() {
+            if (isset($this->profilePic)) {
+                return $this->profilePic;
             }
         }
     }
