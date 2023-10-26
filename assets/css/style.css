@@ -316,7 +316,6 @@ html, body {
     height: 40px;
     padding: 15px 10px;
     list-style-type: none;
-    position: relative;
 }
 
 .track-list .track-list-row span {
@@ -498,6 +497,19 @@ html, body {
     margin: 0;
 }
 
+.button-smaller {
+    color: white;
+    background: transparent;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    padding: 6px;
+    margin: 0;
+}
+
 .playlist-container .grid-view-item {
     cursor: pointer;
 }
@@ -507,8 +519,63 @@ html, body {
     margin-bottom: 0px;
 }
 
-.playlist-container .playlist-image {
+.playlist-image {
     border: 3px solid #282828;
     padding: 10px;
     margin-bottom: 12px;
+}
+
+.playlist-info .playlist-input-container {
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.playlist-info .playlist-input-container #playlist-input {
+    font-size: 18px;
+}
+
+.playlist-confirm-delete {
+    margin-right: 10px;
+}
+
+.options-menu {
+    position: fixed;
+    background: #282828;
+    width: 200px;
+    border: 1px solid rgb(0 0 0 / 30%);
+    border-radius: 3px;
+    z-index: 1000;
+}
+
+.options-menu .item {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 20px;
+    color: rgba(147,147,147, 0.8);
+    cursor: pointer;
+}
+
+.options-menu .item:hover {
+    color: #fff;
+    background-color: #333;
+    border-color: #333;
+}
+
+.options-menu .playlist-menu {
+    position: absolute;
+    background: #282828;
+    width: 200px;
+    border-radius: 0px;
+    top: 0px;
+    transform: translateX(0);
+    transition: all 0.3s;
+}
+
+.options-menu  .playlist-menu .item {
+
+}
+
+.playlist-menu.active {
+    transform: translateX(-100%);
+    z-index: 1001;
 }

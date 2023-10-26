@@ -18,6 +18,17 @@ let shuffle = false;
 let userLoggedIn = false;
 let timer;
 
+window.addEventListener('scroll', hideOptionsMenu);
+window.addEventListener('click', function(e) {
+    if (document.querySelector('.options-menu') && 
+        !e.target.classList.contains('options-button') &&
+        !e.target.classList.contains('item')) {
+            document.querySelector('.options-menu').classList.add('hide');
+            document.querySelector('.playlist-menu').classList.add('hide');
+            document.querySelector('.playlist-menu').classList.remove('active');
+        }
+});
+
 /**
  * Opens the given url and loads the page through AJAX
  * 
@@ -61,6 +72,84 @@ function createPlaylist() {
     } else {
         return;
     }
+}
+
+/**
+ * Create a playlist for user
+ * 
+ * @param {Number} playlistId
+ */
+function deletePlaylist(playlistId) {
+    document.querySelector('.playlist-input-container').classList.add('hide');
+
+    $.post("includes/handlers/ajax/deletePlaylist.php", {playlistId: playlistId}).done(function(error) {
+        if (error) {
+            alert(error);
+            return;
+        }
+        
+        openPage('yourMusic.php');
+    });
+}
+
+/**
+ * add a song to a playlist
+ */
+function addSongToPlaylist(elem) {
+    let playlistId = elem.dataset.id;
+    let songId = elem.closest('.options-menu').querySelector('#songId').value;
+
+    $.post("includes/handlers/ajax/addToPlaylist.php", {playlistId: playlistId, songId: songId}).done(function(error) {
+        if (error) {
+            alert('Error adding song to playlist. Song may already be in the playlist!');
+            return;
+        }
+
+        hideOptionsMenu();
+    });
+}
+
+/**
+ * Show options menu element 
+ * 
+ * @param {HTMLElement} elem
+ */
+function showOptionsMenu(elem) {
+    let menu = $('.options-menu');
+    let menuWidth = menu.width();
+
+    let scrollTop = $(window).scrollTop();
+    let elemOffset = $(elem).offset().top;
+
+    let top = elemOffset - scrollTop;
+    let left = $(elem).position().left - menuWidth - 10;
+
+    menu.css({'top': top + 'px', 'left': left + 'px'});
+    menu.removeClass('hide');
+    document.querySelector('.playlist-menu').classList.add('hide');
+    document.querySelector('.playlist-menu').classList.remove('active');
+
+    let songId = elem.closest('.track-list-row').dataset.songId;
+
+    document.querySelector('#songId').value = songId;
+}
+
+/**
+ * Hide options menu element 
+ */
+function hideOptionsMenu() {
+    let menu = document.querySelector('.options-menu');
+    if (!menu.classList.contains('hide')) {
+        menu.classList.add('hide');
+        document.querySelector('.playlist-menu').classList.add('hide');
+        document.querySelector('.playlist-menu').classList.remove('active');
+    }
+}
+
+function togglePlaylistMenu() {
+    let menu = document.querySelector('.playlist-menu');
+    menu.classList.toggle('hide');
+    menu.classList.toggle('active');
 }
 
 /**
