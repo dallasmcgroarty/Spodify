@@ -42,7 +42,7 @@
                 $songArtist = $song->getArtist();
                 $id = $song->getId();
 
-                echo "<li class='track-list-row'>
+                echo "<li class='track-list-row' data-song-id='$id'>
                         <div class='track-count'>
                             <img class='play' src='assets/images/icons/play-white.png' alt='play' onclick='setTrack(\"$id\",tempPlaylist,true)'/>
                             <span class='track-number'>$i</span>
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class='track-options'>
-                            <img class='options-button' src='assets/images/icons/more.png' alt='more options' />
+                            <img class='options-button' src='assets/images/icons/more.png' alt='more options' onclick='showOptionsMenu(this)' />
                         </div>
 
                         <div class='track-duration'>
@@ -72,3 +72,13 @@
         </script>
     </ul>
 </div>
+
+<nav class="options-menu hide">
+    <input type="hidden" id="songId" />
+    <div class="item" onclick="togglePlaylistMenu();">Add to playlist</div>
+    <div class="item" onclick="removeFromPlaylist(this, '<?php echo $playlist->getId() ?>')">Remove from playlist</div>
+    <div class="item">Copy Song Link</div>
+    <div class="playlist-menu hide">
+        <?php echo Playlist::getAllPlaylists($conn, $userLoggedIn->getUsername()); ?>
+    </div>
+</nav>

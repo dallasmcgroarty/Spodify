@@ -51,6 +51,84 @@ function openPage(url) {
 }
 
 /**
+ * logout user
+ */
+function logout() {
+    $.post('includes/handlers/ajax/logout.php', function() {
+        location.reload();
+    })
+}
+
+/**
+ * Update user email
+ * 
+ * @param {String} emailClass
+ */
+function updateEmail(emailClass) {
+    let emailValue = $('.' + emailClass).val();
+
+    $.post('includes/handlers/ajax/updateEmail.php', {email: emailValue, username: userLoggedIn}).done(function(error) {
+        if (error) {
+            $('.' + emailClass).next().text('Error updating email!')
+            $('.' + emailClass).next().addClass('fail');
+            $('.' + emailClass).next().removeClass('hide');
+            $('.' + emailClass).next().removeClass('success');
+        } else {
+            $('.' + emailClass).next().text('Email updated!')
+            $('.' + emailClass).next().addClass('success');
+            $('.' + emailClass).next().removeClass('hide');
+            $('.' + emailClass).next().removeClass('fail');
+        }
+    })
+}
+
+/**
+ * Update user email
+ * 
+ * @param {String} oldPasswordClass
+ * @param {String} newPasswordClass
+ * @param {String} newPasswordClass2
+ */
+function updatePassword(oldPasswordClass, newPasswordClass, newPasswordClass2) {
+    let oldPassword = $('.' + oldPasswordClass).val();
+    let newPassword = $('.' + newPasswordClass).val();
+    let newPassword2 = $('.' + newPasswordClass2).val();
+
+    $.post('includes/handlers/ajax/updatePassword.php', {username: userLoggedIn, oldPassword: oldPassword, newPassword: newPassword, newPassword2: newPassword2}).done(function(res) {
+        if (res) {
+            $('.' + newPasswordClass2).next().text(res)
+            $('.' + newPasswordClass2).next().addClass('fail');
+            $('.' + newPasswordClass2).next().removeClass('hide');
+            $('.' + newPasswordClass2).next().removeClass('success');
+        } else {
+            $('.' + newPasswordClass2).next().text('Password updated!')
+            $('.' + newPasswordClass2).next().addClass('success');
+            $('.' + newPasswordClass2).next().removeClass('hide');
+            $('.' + newPasswordClass2).next().removeClass('fail');
+        }
+    })
+}
+
+/**
+ * Remove song from playlist
+ * 
+ * @param {HTMLElement} elem
+ * @param {Number} playlistId
+ */
+function removeFromPlaylist(elem, playlistId) {
+    let songId = elem.closest('.options-menu').querySelector('#songId').value;
+
+    $.post("includes/handlers/ajax/removeFromPlaylist.php", {playlistId: playlistId, songId: songId}).done(function(error) {
+        if (error) {
+            alert(error);
+            return;
+        }
+        
+        openPage('playlist.php?id='+playlistId);
+    });
+}
+
+/**
  * Create a playlist for user
  * 
  * @param {String} username

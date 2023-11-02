@@ -1,15 +1,19 @@
 <?php 
 
 include('includes/config.php');
+include('includes/classes/User.php');
+include('includes/classes/Account.php');
 include('includes/classes/Artist.php');
 include('includes/classes/Album.php');
 include('includes/classes/Song.php');
+include('includes/classes/Playlist.php');
 
 // logout session
 // session_destroy();
 
 if (isset($_SESSION['userLoggedIn'])) {
     $userLoggedIn = $_SESSION['userLoggedIn'];
+    $user = unserialize($_SESSION['user']);
     echo "<script>userLoggedIn = '$userLoggedIn'</script>";
 } else {
     header("Location: register.php");
@@ -68,7 +72,7 @@ if (isset($_SESSION['userLoggedIn'])) {
                             <span role="link" tabindex="0" onclick="openPage('yourMusic.php')" class="nav-item-link">Your Music</span>
                         </div>
                         <div class="nav-item">
-                            <span role="link" tabindex="0" onclick="openPage('profile.php')" class="nav-item-link">Profile</span>
+                            <span role="link" tabindex="0" onclick="openPage('settings.php')" class="nav-item-link"><?php echo $userLoggedIn ?></span>
                         </div>
                     </div>
                 </nav>

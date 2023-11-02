@@ -7,6 +7,22 @@ html, body {
     min-width: 720px;
 }
 
+.flex {
+    display: flex;
+}
+
+.jcc {
+    justify-content: center;
+}
+
+.aic {
+    align-items: center;
+}
+
+.f-col {
+    flex-direction: column;
+}
+
 * {
     font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     color: #fff;
@@ -578,4 +594,34 @@ html, body {
 .playlist-menu.active {
     transform: translateX(-100%);
     z-index: 1001;
+}
+
+.user-details {
+    padding: 20px;
+}
+
+.user-details .container {
+    gap: 16px;
+}
+
+.user-details .container input {
+    height: 50px;
+    width: 100%;
+    background-color: #1f1f1f;
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 0 20px;
+}
+
+.user-details .message {
+    width: 100%;
+}
+
+.message.success {
+    color: #2ebd59;
+}
+
+.message.fail {
+    color: red;
 }

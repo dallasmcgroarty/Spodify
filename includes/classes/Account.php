@@ -8,6 +8,7 @@
         private $errorArray;
         private $username;
         private $firstName;
+        private $lastName;
         private $email;
         private $profilePic;
 
@@ -25,6 +26,7 @@
 
                 $this->username = $account['username'];
                 $this->firstName = $account['firstName'];
+                $this->lastName = $account['lastName'];
                 $this->email = $account['email'];
                 $this->profilePic = $account['profilePic'];
 
@@ -147,6 +149,12 @@
             }
         }
 
+        public function getLastName() {
+            if (isset($this->lastName)) {
+                return $this->lastName;
+            }
+        }
+    
         public function getEmail() {
             if (isset($this->email)) {
                 return $this->email;
