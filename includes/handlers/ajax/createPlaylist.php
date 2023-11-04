@@ -6,7 +6,7 @@
         $username = $_POST['username'];
         $date = date('Y-m-d h:i:s');
 
-        $query = mysqli_query($conn, "INSERT INTO playlists VALUES('', '$name', '$username', '$date')");
+        $query = mysqli_query($conn, "INSERT INTO playlists (name, owner, dateCreated) VALUES('$name', '$username', '$date')");
 
         return $query;
 

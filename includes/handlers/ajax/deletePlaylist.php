@@ -5,7 +5,7 @@
         $playlistId = $_POST['playlistId'];
 
         $query = mysqli_query($conn, "DELETE FROM playlists WHERE id='$playlistId'");
-        $query = mysqli_query($conn, "DELETE FROM playlistSongs WHERE playlistId='$playlistId'");
+        $query = mysqli_query($conn, "DELETE FROM playlistsongs WHERE playlistId='$playlistId'");
 
         return $query;
 
